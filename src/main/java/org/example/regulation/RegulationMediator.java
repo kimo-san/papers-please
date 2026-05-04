@@ -5,6 +5,7 @@ import org.example.domain.Persona;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class RegulationMediator implements Regulation {
@@ -41,7 +42,7 @@ public final class RegulationMediator implements Regulation {
                 detected.add(ins);
             }
         }
-        return detected;
+        return detected.isEmpty() ? Collections.singletonList(new Inspection.Approved()) : detected;
     }
 
 }
