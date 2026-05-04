@@ -7,10 +7,11 @@ import org.example.util.BulletinParserImpl;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Inspector {
 
-    Regulation regulation = new CompositeRegulation(
+    RegulationMediator regulation = new RegulationMediator(
             new WantedCriminalRegulation(),
             new MismatchRegulation(),
             new NationalityDocumentRegulation(),
@@ -28,12 +29,14 @@ public class Inspector {
 
     public String inspect(Map<String, String> person) {
         var persona = new Persona(person);
-        return regulation.inspection(persona)
-                .fold(
+        var inspected = regulation.inspectAll(persona);
+        return inspected.stream()
+                .map(inspection -> inspection.fold(
                         () -> persona.isForeigner() ? "Cause no trouble." : "Glory to Arstotzka.",
                         Function.identity(),
                         Function.identity()
-                );
+                ))
+                .collect(Collectors.joining());
     }
 
 }
