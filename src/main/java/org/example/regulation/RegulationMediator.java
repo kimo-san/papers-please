@@ -27,7 +27,7 @@ public final class RegulationMediator implements Regulation {
         Inspection inspection = new Inspection.Approved();
 
         for (Regulation reg : regulations) {
-            inspection = reg.inspection(persona);
+            inspection.andThen(() -> reg.inspection(persona));
         }
 
         return inspection;
